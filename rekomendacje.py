@@ -2,6 +2,7 @@ import json
 import numpy as np
 from compute_scores import pearson_score
 from compute_scores import euclidean_score
+import requests
 
 """
 Opracowanie:
@@ -98,3 +99,11 @@ if __name__ == '__main__':
 
     movies = get_recommendations(data, user, 'Euclidean')
     print_movies(movies)
+    
+        # Wypisywanie opisu z pierwszego poleconego filmu z zewnętrznego API
+    parameters = {"api_key": "b118d44e2b578cae3c6f504075d7f9e1", "query": movies[0]}
+    response = requests.get("https://api.themoviedb.org/3/search/movie", params=parameters)
+
+    dzejson = response.json()['results'][1]['overview']
+
+    print('\n' + movies[1] + ': ' + dzejson)
