@@ -29,6 +29,8 @@ Dokumentacja kodu źródłowego:
     Python -> docstring (https://www.python.org/dev/peps/pep-0257/)
     NumPy -> https://numpy.org/doc/stable/user/whatisnumpy.html
     Prateek Joshi - Artificial Intelligence with Python
+API źródło: 
+    https://api.themoviedb.org
 """
 
 
