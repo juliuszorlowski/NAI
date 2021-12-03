@@ -36,12 +36,13 @@ new_X = pd.DataFrame(new_X)
 new_X = preprocessing.minmax_scale(new_X)
 new_X = pd.DataFrame(new_X)
 
+# PCA transformation - Merge all columns in new_X to 2 colums.
 X_pca = PCA(n_components=2).fit_transform(new_X)
 
 y = y.astype(int).values
 y = y.ravel()
 
-svc = svm.SVC(kernel='rbf', C=1, gamma=100).fit(X_pca, y)
+svc = svm.SVC(kernel='rbf', C=1, gamma=50).fit(X_pca, y)
 
 # create a mesh to plot in
 x_min, x_max = X_pca[:, 0].min() - 1, X_pca[:, 0].max() + 1
@@ -53,11 +54,13 @@ xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
  np.arange(y_min, y_max, h))
 
 
-plt.subplot(1, 1, 1)
+# Predicted shape
 Z = svc.predict(np.c_[xx.ravel(), yy.ravel()])
 Z = Z.reshape(xx.shape)
-plt.contourf(xx, yy, Z, alpha=0.8)
-plt.figure()
-plt.scatter(X_pca[:, 0], X_pca[:, 1], c = y)
-plt.xlim(xx.min(), xx.max())
+
+# Drawing the plot
+plt.contourf(xx, yy, Z, alpha=0.4)
+plt.scatter(X_pca[:, 0], X_pca[:, 1], c = y, marker='x')
+plt.xlim(X_pca[:, 0].min() - 0.1, X_pca[:, 0].max() + 0.1)
+plt.ylim(X_pca[:, 1].min() - 0.1, X_pca[:, 1].max() + 0.1)
 plt.show()
