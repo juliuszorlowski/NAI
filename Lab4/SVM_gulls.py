@@ -43,21 +43,15 @@ def dataset(data):
 input_file = 'gulls.csv'
 data = pd.read_csv(input_file)
 
-X, y = data.loc[:,['DCG', 'WD', 'SzP', 'Skrz']], data.loc[:,['Outcome']]
-
-# Using k-NN inputer replace NaN -> kNNValue
-knn = KNNImputer()
-knn.fit(X)
-new_X = knn.transform(X)
-new_X = pd.DataFrame(new_X)
+X, y = data.loc[:,['DCG', 'WD', 'SzP', 'Skrz']], data.loc[:,['Sex']]
 
 
 # Scaling
-new_X = preprocessing.minmax_scale(new_X)
-new_X = pd.DataFrame(new_X)
+X = preprocessing.minmax_scale(X)
+X = pd.DataFrame(X)
 
 # PCA transformation - Merge all columns in new_X to 2 columns.
-X_pca = PCA(n_components=2).fit_transform(new_X)
+X_pca = PCA(n_components=2).fit_transform(X)
 
 y = y.astype(int).values
 y = y.ravel()
