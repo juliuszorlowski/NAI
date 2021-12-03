@@ -37,6 +37,8 @@ Dokumentacja kodu źródłowego:
     NumPy -> https://numpy.org/doc/stable/user/whatisnumpy.html
     matplotlib -> https://matplotlib.org/
     pandas -> https://pandas.pydata.org/
+Wykorzystane źródła:
+https://scikit-learn.org/stable/auto_examples/svm/plot_iris_svc.html
 """
 def plot_contours(ax, clf, xx, yy, **params):
     """Plot the decision boundaries for a classifier.
