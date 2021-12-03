@@ -74,7 +74,18 @@ X_pca = PCA(n_components=2).fit_transform(new_X)
 y = y.astype(int).values
 y = y.ravel()
 
-svc = svm.SVC(kernel='rbf', C=1, gamma=50).fit(X_pca, y)
+# Train and test split
+num_training = int(0.8 * len(X))
+num_test = len(X) - num_training
+
+# Training data
+X_train, y_train = X_pca[:num_training], y[:num_training]
+
+# Test data
+X_test, y_test = X_pca[num_training:], y[num_training:]
+
+
+svc = svm.SVC(kernel='rbf', C=1, gamma=50).fit(X_train, y_train)
 
 # create a mesh to plot in
 x_min, x_max = X_pca[:, 0].min() - 1, X_pca[:, 0].max() + 1
@@ -90,9 +101,12 @@ xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
 Z = svc.predict(np.c_[xx.ravel(), yy.ravel()])
 Z = Z.reshape(xx.shape)
 
+y_test_pred = svc.predict(X_test)
+
 # Drawing the plot
 plt.contourf(xx, yy, Z, alpha=0.4)
-plt.scatter(X_pca[:, 0], X_pca[:, 1], c = y, marker='x')
+scatter = plt.scatter(X_test[:, 0], X_test[:, 1], c = y_test, marker='x')
 plt.xlim(X_pca[:, 0].min() - 0.1, X_pca[:, 0].max() + 0.1)
 plt.ylim(X_pca[:, 1].min() - 0.1, X_pca[:, 1].max() + 0.1)
+plt.legend(*scatter.legend_elements(), title='Real Diabete')
 plt.show()
