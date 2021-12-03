@@ -36,3 +36,4 @@ new_X = preprocessing.minmax_scale(new_X)
 new_X = pd.DataFrame(new_X)
 print(new_X.head())
 
+asfdsafdsa
