@@ -11,7 +11,7 @@ from sklearn.impute import KNNImputer
 def dataset(data):
     data = pd.DataFrame(data)
 
-input_file = './pima-indians-diabetes.csv'
+input_file = 'pima-indians-diabetes.csv'
 data = pd.read_csv(input_file)
 
 # Cleaning dataset with kNN-Imputer
