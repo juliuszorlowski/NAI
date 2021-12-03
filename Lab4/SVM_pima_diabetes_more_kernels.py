@@ -32,16 +32,28 @@ Wykorzystywane biblioteki:
     NumPy - do tworzenia macierzy
     matplotlib - do analizy danych
     pandas - do tworzenia wizualizacji danych
-
 Dokumentacja kodu źródłowego:
     Python -> docstring (https://www.python.org/dev/peps/pep-0257/)
     NumPy -> https://numpy.org/doc/stable/user/whatisnumpy.html
     matplotlib -> https://matplotlib.org/
     pandas -> https://pandas.pydata.org/
 """
+def plot_contours(ax, clf, xx, yy, **params):
+    """Plot the decision boundaries for a classifier.
 
-def dataset(data):
-    data = pd.DataFrame(data)
+    Parameters
+    ----------
+    ax: matplotlib axes object
+    clf: a classifier
+    xx: meshgrid ndarray
+    yy: meshgrid ndarray
+    params: dictionary of params to pass to contourf, optional
+    """
+    Z = clf.predict(np.c_[xx.ravel(), yy.ravel()])
+    Z = Z.reshape(xx.shape)
+    out = ax.contourf(xx, yy, Z, **params)
+    return out
+
 
 input_file = 'pima-indians-diabetes.csv'
 data = pd.read_csv(input_file)
@@ -74,7 +86,14 @@ X_pca = PCA(n_components=2).fit_transform(new_X)
 y = y.astype(int).values
 y = y.ravel()
 
-svc = svm.SVC(kernel='rbf', C=1, gamma=50).fit(X_pca, y)
+C = 1.0  # SVM regularization parameter
+models = (
+    svm.SVC(kernel="linear", C=C),
+    svm.LinearSVC(C=C, max_iter=10000),
+    svm.SVC(kernel="rbf", gamma=0.7, C=C),
+    svm.SVC(kernel="poly", degree=3, gamma=40, C=C),
+)
+models = (clf.fit(X_pca, y) for clf in models)
 
 # create a mesh to plot in
 x_min, x_max = X_pca[:, 0].min() - 1, X_pca[:, 0].max() + 1
@@ -86,13 +105,29 @@ xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
  np.arange(y_min, y_max, h))
 
 
-# Predicted shape
-Z = svc.predict(np.c_[xx.ravel(), yy.ravel()])
-Z = Z.reshape(xx.shape)
+
+# title for the plots
+titles = (
+    "SVC with linear kernel",
+    "LinearSVC (linear kernel)",
+    "SVC with RBF kernel",
+    "SVC with polynomial (degree 3) kernel",
+)
+
+# Set-up 2x2 grid for plotting.
+fig, sub = plt.subplots(2, 2)
+plt.subplots_adjust(wspace=0.4, hspace=0.4)
+
+X0, X1 = X_pca[:, 0], X_pca[:, 1]
 
 # Drawing the plot
-plt.contourf(xx, yy, Z, alpha=0.4)
-plt.scatter(X_pca[:, 0], X_pca[:, 1], c = y, marker='x')
-plt.xlim(X_pca[:, 0].min() - 0.1, X_pca[:, 0].max() + 0.1)
-plt.ylim(X_pca[:, 1].min() - 0.1, X_pca[:, 1].max() + 0.1)
+for clf, title, ax in zip(models, titles, sub.flatten()):
+    plot_contours(ax, clf, xx, yy, cmap='viridis', alpha=0.4)
+    ax.scatter(X0, X1, c=y, cmap='viridis', s=10, marker='x')
+    ax.set_xlim(X0.min() - 0.1, X0.max() + 0.1)
+    ax.set_ylim(X1.min() - 0.1, X1.max() + 0.1)
+    ax.set_xticks(())
+    ax.set_yticks(())
+    ax.set_title(title)
+
 plt.show()
