@@ -121,14 +121,16 @@ plt.subplots_adjust(wspace=0.4, hspace=0.4)
 
 X0, X1 = X_pca[:, 0], X_pca[:, 1]
 
+
 # Drawing the plot
 for clf, title, ax in zip(models, titles, sub.flatten()):
     plot_contours(ax, clf, xx, yy, cmap='viridis', alpha=0.4)
-    ax.scatter(X0, X1, c=y, cmap='viridis', s=10, marker='x')
+    scatter = ax.scatter(X0, X1, c=y, cmap='viridis', s=10, marker='x')
     ax.set_xlim(X0.min() - 0.1, X0.max() + 0.1)
     ax.set_ylim(X1.min() - 0.1, X1.max() + 0.1)
     ax.set_xticks(())
     ax.set_yticks(())
     ax.set_title(title)
+    ax.legend(*scatter.legend_elements(), title='Diabete')
 
 plt.show()
