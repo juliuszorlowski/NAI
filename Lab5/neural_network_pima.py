@@ -88,7 +88,7 @@ print(len(y_test))
 
 mlp = MLPClassifier(
     hidden_layer_sizes=(50,),
-    max_iter=10,
+    max_iter=15,
     alpha=1e-4,
     solver="sgd",
     verbose=10,
