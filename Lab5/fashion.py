@@ -72,8 +72,8 @@ X_test, y_test = X[num_training:], y[num_training:]
 # plt.show
 
 mlp = MLPClassifier(
-    hidden_layer_sizes=(100, 90, 75, 50, 30, 20),
-    max_iter=20,
+    hidden_layer_sizes=(120, 84,),
+    max_iter=15,
     alpha=1e-4,
     solver="sgd",
     verbose=10,

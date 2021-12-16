@@ -52,9 +52,9 @@ data = pd.read_csv(input_file, header=None)
 # Cleaning dataset with kNN-Imputer
 # Replace 0 -> Null
 
-X, y = data.loc[1:, 0:8], data.loc[1:, 8:]
-print(data.loc[0])
-print(y)
+X, y = data.loc[1:, 0:7], data.loc[1:, 8:]
+
+
 # Using k-NN imputer replace NaN -> kNNValue
 knn = KNNImputer()
 knn.fit(X)
@@ -81,14 +81,10 @@ X_train, y_train = new_X[:num_training], y[:num_training]
 # Test data
 X_test, y_test = new_X[num_training:], y[num_training:]
 
-print(len(X_train))
-print(len(y_train))
-print(len(X_test))
-print(len(y_test))
 
 mlp = MLPClassifier(
-    hidden_layer_sizes=(50,),
-    max_iter=15,
+    hidden_layer_sizes=(7, 5),
+    max_iter=30,
     alpha=1e-4,
     solver="sgd",
     verbose=10,
