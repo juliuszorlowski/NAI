@@ -7,6 +7,7 @@ from sklearn import preprocessing
 from sklearn.exceptions import ConvergenceWarning
 from sklearn.impute import KNNImputer
 import sklearn.metrics as sm
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 from sklearn.neural_network import MLPClassifier
 
 """
@@ -86,3 +87,10 @@ with warnings.catch_warnings():
 
 print("Training set score: %f" % mlp.score(X_train, y_train))
 print("Test set score: %f" % mlp.score(X_test, y_test))
+
+predictions = mlp.predict(X_test)
+cm = confusion_matrix(y_test, predictions, labels=mlp.classes_)
+disp = ConfusionMatrixDisplay(confusion_matrix=cm,
+                              display_labels=mlp.classes_)
+disp.plot()
+plt.show()
