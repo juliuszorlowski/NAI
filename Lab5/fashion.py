@@ -1,12 +1,7 @@
 import warnings
-from math import sqrt
-import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn import preprocessing
 from sklearn.exceptions import ConvergenceWarning
-from sklearn.impute import KNNImputer
-import sklearn.metrics as sm
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 from sklearn.neural_network import MLPClassifier
 
@@ -14,32 +9,37 @@ from sklearn.neural_network import MLPClassifier
 Opracowanie:
     Autorzy: Jakub Prucnal
              Juliusz Orłowski
-    Temat:   Uczenie SVM klasyfikowania danych
+    Temat:   Sieci Neuronowe dla Klasyfikacji
 Wejście:
-    - plik pima-indians-diabetes.csv zawierający zbiór danych z 768 badań medycznych przeprowadzonych na Indianach Pima
-    pod kątem przewidywania wystąpienia cukrzycy w ciągu 5 lat od badania
-    Dane zawierają:
-        1. Ilość ciąż
-        2. Poziom glukozy we krwi
-        3. Rozkurczowe ciśnienie krwi (mm Hg)
-        4. Grubość skóry nad tricepsem (mm)
-        5. Ilość insuliny w surowicy (mu U/ml)
-        6. Indeks BMI (waga w kg/(wzrost w m)^2)
-        7. Funkcja cukrzycy genetycznej
-        8. Wiek (w latach)
-        9. Zmienna klasowa (0 lub 1)
+    W celu uruchomienia programu należy pobrać plik csv ze strony https://www.openml.org/d/40996 i przenieść go do
+    katalogu głównego programu pod nazwą fashion-db.csv.
+
+    - plik fashion-db.csv z zestawem danych składających się z produktów Zalando - zestaw treningowy 60000 przykładów
+    i zestaw testowy 10000 przykładów
+    
+    Etykiety danych:
+        Etykieta 	Opis
+        0 	        T-shirt/top
+        1 	        Trouser
+        2 	        Pullover
+        3 	        Dress
+        4 	        Coat
+        5       	Sandal
+        6 	        Shirt
+        7       	Sneaker
+        8       	Bag
+        9 	        Ankle boot
+        
 Wyjście:
-    Program wykorzystuje Support Vector Classificator w celu klasyfikacji danych do dwóch zbiorów:
-        1. Nie zagrożony wystąpieniem cukrzycy
-        2. Zagrożony wystąpieniem cukrzycy
+    Program wyświetla log z kolejnymi iteracjami uczenia oraz ostatecznym wynikiem treningowym i testowym.
+    Ponadto, program tworzy confusion matrix w celu ewaluacji skuteczności działania klasyfikatora.
+    
 Wykorzystywane biblioteki:
-    NumPy - do tworzenia macierzy
-    matplotlib - do analizy danych
-    pandas - do tworzenia wizualizacji danych
+    pandas - do analizy danych
+    matplotlib - do tworzenia wizualizacji danych
 
 Dokumentacja kodu źródłowego:
     Python -> docstring (https://www.python.org/dev/peps/pep-0257/)
-    NumPy -> https://numpy.org/doc/stable/user/whatisnumpy.html
     matplotlib -> https://matplotlib.org/
     pandas -> https://pandas.pydata.org/
 """

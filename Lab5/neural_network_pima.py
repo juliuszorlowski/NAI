@@ -13,7 +13,7 @@ from sklearn.neural_network import MLPClassifier
 Opracowanie:
     Autorzy: Jakub Prucnal
              Juliusz Orłowski
-    Temat:   Uczenie SVM klasyfikowania danych
+    Temat:   Sieci Neuronowe dla Klasyfikacji
 Wejście:
     - plik pima-indians-diabetes.csv zawierający zbiór danych z 768 badań medycznych przeprowadzonych na Indianach Pima
     pod kątem przewidywania wystąpienia cukrzycy w ciągu 5 lat od badania
