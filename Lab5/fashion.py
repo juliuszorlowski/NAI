@@ -10,12 +10,14 @@ Opracowanie:
     Autorzy: Jakub Prucnal
              Juliusz Orłowski
     Temat:   Sieci Neuronowe dla Klasyfikacji
+    
 Wejście:
     W celu uruchomienia programu należy pobrać plik csv ze strony https://www.openml.org/d/40996 i przenieść go do
     katalogu głównego programu pod nazwą fashion-db.csv.
 
     - plik fashion-db.csv z zestawem danych składających się z produktów Zalando - zestaw treningowy 60000 przykładów
-    i zestaw testowy 10000 przykładów
+    i zestaw testowy 10000 przykładów - obrazy 28x28 pikseli w skali odcieni szarości reprezentujących 10 klas
+    produktów.
     
     Etykiety danych:
         Etykieta 	Opis

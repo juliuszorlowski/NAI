@@ -1,12 +1,6 @@
 import warnings
-from math import sqrt
-import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn import preprocessing
 from sklearn.exceptions import ConvergenceWarning
-from sklearn.impute import KNNImputer
-import sklearn.metrics as sm
 from sklearn.neural_network import MLPClassifier
 
 """
@@ -14,31 +8,36 @@ Opracowanie:
     Autorzy: Jakub Prucnal
              Juliusz Orłowski
     Temat:   Sieci Neuronowe dla Klasyfikacji
+    
 Wejście:
-    - plik pima-indians-diabetes.csv zawierający zbiór danych z 768 badań medycznych przeprowadzonych na Indianach Pima
-    pod kątem przewidywania wystąpienia cukrzycy w ciągu 5 lat od badania
-    Dane zawierają:
-        1. Ilość ciąż
-        2. Poziom glukozy we krwi
-        3. Rozkurczowe ciśnienie krwi (mm Hg)
-        4. Grubość skóry nad tricepsem (mm)
-        5. Ilość insuliny w surowicy (mu U/ml)
-        6. Indeks BMI (waga w kg/(wzrost w m)^2)
-        7. Funkcja cukrzycy genetycznej
-        8. Wiek (w latach)
-        9. Zmienna klasowa (0 lub 1)
+    W celu uruchomienia programu należy pobrać plik csv ze strony https://www.openml.org/d/40927 i przenieść go do
+    katalogu głównego programu pod nazwą cifar-10.csv.
+
+    - plik cifar-10.csv zawierający zbiór danych 80 milionów małych obrazów wielkości 32x32 pikseli reprezentujących
+    10 klas obiektów.
+    
+    Etykiety danych:
+        Etykieta 	Opis
+        0 	        airplane
+        1 	        automobile
+        2 	        bird
+        3 	        cat
+        4 	        deer
+        5       	dog
+        6 	        frog
+        7       	horse
+        8       	ship
+        9 	        truck
+
 Wyjście:
-    Program wykorzystuje Support Vector Classificator w celu klasyfikacji danych do dwóch zbiorów:
-        1. Nie zagrożony wystąpieniem cukrzycy
-        2. Zagrożony wystąpieniem cukrzycy
+    Program wyświetla log z kolejnymi iteracjami uczenia oraz ostatecznym wynikiem treningowym i testowym.
+    
 Wykorzystywane biblioteki:
-    NumPy - do tworzenia macierzy
-    matplotlib - do analizy danych
-    pandas - do tworzenia wizualizacji danych
+    pandas - do analizy danych
+    matplotlib - do tworzenia wizualizacji danych
 
 Dokumentacja kodu źródłowego:
     Python -> docstring (https://www.python.org/dev/peps/pep-0257/)
-    NumPy -> https://numpy.org/doc/stable/user/whatisnumpy.html
     matplotlib -> https://matplotlib.org/
     pandas -> https://pandas.pydata.org/
 """
