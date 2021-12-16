@@ -49,8 +49,9 @@ data = pd.read_csv(input_file, header=None, skiprows=[0])
 # Cleaning dataset with kNN-Imputer
 # Replace 0 -> Null
 
-X, y = data.loc[0:, :784], data.loc[0:, 784:]
+X, y = data.loc[0:, :783], data.loc[0:, 784:]
 X = X / 255.0
+
 y = y.astype(int).values
 y = y.ravel()
 
@@ -58,12 +59,16 @@ y = y.ravel()
 # Train and test split
 num_training = int(0.8 * len(X))
 num_test = len(X) - num_training
-
 # Training data
 X_train, y_train = X[:num_training], y[:num_training]
 
 # Test data
 X_test, y_test = X[num_training:], y[num_training:]
+
+
+# image = X_train[50, :].reshape((28, 28))
+# plt.imshow(image)
+# plt.show
 
 mlp = MLPClassifier(
     hidden_layer_sizes=(100, 90, 75, 50, 30, 20),
