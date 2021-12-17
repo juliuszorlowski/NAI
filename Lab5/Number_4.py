@@ -15,7 +15,8 @@ Wejście:
     W celu uruchomienia programu należy pobrać plik csv ze strony https://www.openml.org/d/180 i przenieść go do
     katalogu głównego programu pod nazwą covertype.csv.
 
-    - plik covertype.csv zawierający zbiór danych 110393 realnych środowisk leśnych komórkami po 30 na 30 metrów oraz predykcja 7 gatunków drzew na danym terenie.
+    - plik covertype.csv zawierający zbiór danych 110393 realnych środowisk leśnych komórkami po 30 na 30 metrów 
+    oraz gatunek drzew przeważający na danym terenie.
 
     Kolumny: 
         Name / Data Type / Measurement / Description
