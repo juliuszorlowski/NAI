@@ -45,14 +45,13 @@ Dokumentacja kodu źródłowego:
 input_file = 'cifar-10.csv'
 data = pd.read_csv(input_file, header=None, skiprows=[0])
 
-# Cleaning dataset with kNN-Imputer
-# Replace 0 -> Null
 
-X, y = data.loc[0:, :3072], data.loc[0:, 3072:]
+X, y = data.loc[0:, :3071], data.loc[0:, 3072:]
 X = X / 255.0
+
+# Return a flattened array
 y = y.astype(int).values
 y = y.ravel()
-print(data.loc[0])
 
 # Train and test split
 num_training = int(0.8 * len(X))
@@ -64,8 +63,9 @@ X_train, y_train = X[:num_training], y[:num_training]
 # Test data
 X_test, y_test = X[num_training:], y[num_training:]
 
+# Neural Network Classifier - 3 hidden layers with sizes: 1000, 400 and 84
 mlp = MLPClassifier(
-    hidden_layer_sizes=(1000, 800, 700, 600, 500, 400, 300, 200, 100, 50, 30, 20),
+    hidden_layer_sizes=(1000, 400, 84,),
     max_iter=20,
     alpha=1e-4,
     solver="sgd",

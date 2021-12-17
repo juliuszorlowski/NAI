@@ -49,15 +49,12 @@ Dokumentacja kodu źródłowego:
 input_file = 'fashion-db.csv'
 data = pd.read_csv(input_file, header=None, skiprows=[0])
 
-# Cleaning dataset with kNN-Imputer
-# Replace 0 -> Null
-
 X, y = data.loc[0:, :783], data.loc[0:, 784:]
 X = X / 255.0
 
+# Return a flattened array
 y = y.astype(int).values
 y = y.ravel()
-
 
 # Train and test split
 num_training = int(0.8 * len(X))
@@ -68,11 +65,7 @@ X_train, y_train = X[:num_training], y[:num_training]
 # Test data
 X_test, y_test = X[num_training:], y[num_training:]
 
-
-# image = X_train[50, :].reshape((28, 28))
-# plt.imshow(image)
-# plt.show
-
+# Neural Network Classifier - 2 hidden layers with sizes: 120 and 84
 mlp = MLPClassifier(
     hidden_layer_sizes=(120, 84,),
     max_iter=15,
@@ -83,16 +76,22 @@ mlp = MLPClassifier(
     learning_rate_init=0.1,
 )
 
+# Catching warnings from MLPClassifier
 with warnings.catch_warnings():
     warnings.filterwarnings("ignore", category=ConvergenceWarning, module="sklearn")
+
+    # Here is a kind of Magic of Machine Learning
     mlp.fit(X_train, y_train)
 
+# Printing score for train and test dataset.
 print("Training set score: %f" % mlp.score(X_train, y_train))
 print("Test set score: %f" % mlp.score(X_test, y_test))
 
+# Creating and visualisation the confusion matrix for predictions
 predictions = mlp.predict(X_test)
+labels = ["T-shirt/top", "Trouser", "Pullover", "Dress", "Coat", "Sandal", "Shirt", "Sneaker", "Bag", "Ankle boot"]
 cm = confusion_matrix(y_test, predictions, labels=mlp.classes_)
 disp = ConfusionMatrixDisplay(confusion_matrix=cm,
-                              display_labels=mlp.classes_)
+                              display_labels=labels)
 disp.plot()
 plt.show()
