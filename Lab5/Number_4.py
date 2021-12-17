@@ -1,7 +1,9 @@
 import warnings
 import pandas as pd
+from sklearn import preprocessing
 from sklearn.exceptions import ConvergenceWarning
 from sklearn.neural_network import MLPClassifier
+from sklearn.utils import column_or_1d
 
 """
 Opracowanie:
@@ -61,12 +63,17 @@ Dokumentacja kodu źródłowego:
 input_file = 'covertype.csv'
 data = pd.read_csv(input_file, header=None, skiprows=[0])
 
-X, y = data.loc[0:, :3071], data.loc[0:, 3072:]
-X = X / 255.0
+X, y = data.loc[0:, :53], data.loc[0:, 54:]
 
-# Return a flattened array
-y = y.astype(int).values
-y = y.ravel()
+# Scaling
+X = preprocessing.minmax_scale(X)
+X = pd.DataFrame(X)
+
+y = column_or_1d(y, warn=False)
+encoder = preprocessing.LabelEncoder()
+encoder.fit(y)
+y = encoder.transform(y)
+
 
 # Train and test split
 num_training = int(0.8 * len(X))
@@ -78,9 +85,9 @@ X_train, y_train = X[:num_training], y[:num_training]
 # Test data
 X_test, y_test = X[num_training:], y[num_training:]
 
-# Neural Network Classifier - 3 hidden layers with sizes: 1000, 400 and 84
+# Neural Network Classifier - 2 hidden layers with sizes: 256 and 64
 mlp = MLPClassifier(
-    hidden_layer_sizes=(1000, 400, 84,),
+    hidden_layer_sizes=(256, 64,),
     max_iter=20,
     alpha=1e-4,
     solver="sgd",
