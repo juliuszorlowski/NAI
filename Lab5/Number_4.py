@@ -15,8 +15,7 @@ Wejście:
     W celu uruchomienia programu należy pobrać plik csv ze strony https://www.openml.org/d/180 i przenieść go do
     katalogu głównego programu pod nazwą covertype.csv.
 
-    - plik covertype.csv zawierający zbiór danych 80 milionów małych obrazów wielkości 32x32 pikseli reprezentujących
-    10 klas obiektów.
+    - plik covertype.csv zawierający zbiór danych 110393 realnych środowisk leśnych komórkami po 30 na 30 metrów oraz predykcja 7 gatunków drzew na danym terenie.
 
     Kolumny: 
         Name / Data Type / Measurement / Description
@@ -36,16 +35,13 @@ Wejście:
 
     Etykiety danych:
         Etykieta 	Opis
-        0 	        airplane
-        1 	        automobile
-        2 	        bird
-        3 	        cat
-        4 	        deer
-        5       	dog
-        6 	        frog
-        7       	horse
-        8       	ship
-        9 	        truck
+        0 	        Spruce_fir
+        1 	        Lodgepole_Pine
+        2 	        Ponderosa_Pine
+        3 	        Cottonwood_Willow
+        4 	        Aspen
+        5       	Douglas_fir
+        6 	        Krummholz
 
 Wyjście:
     Program wyświetla log z kolejnymi iteracjami uczenia oraz ostatecznym wynikiem treningowym i testowym.
@@ -65,10 +61,11 @@ data = pd.read_csv(input_file, header=None, skiprows=[0])
 
 X, y = data.loc[0:, :53], data.loc[0:, 54:]
 
-# Scaling
+# Scaling X
 X = preprocessing.minmax_scale(X)
 X = pd.DataFrame(X)
 
+# Encrypting labels for y
 y = column_or_1d(y, warn=False)
 encoder = preprocessing.LabelEncoder()
 encoder.fit(y)
