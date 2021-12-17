@@ -97,6 +97,8 @@ mlp = MLPClassifier(
 # Catching warnings from MLPClassifier
 with warnings.catch_warnings():
     warnings.filterwarnings("ignore", category=ConvergenceWarning, module="sklearn")
+
+    # Here is a kind of Magic of Machine Learning
     mlp.fit(X_train, y_train)
 
 

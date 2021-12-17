@@ -74,9 +74,13 @@ mlp = MLPClassifier(
     learning_rate_init=0.1,
 )
 
+# Catching warnings from MLPClassifier
 with warnings.catch_warnings():
     warnings.filterwarnings("ignore", category=ConvergenceWarning, module="sklearn")
+
+    # Here is a kind of Magic of Machine Learning
     mlp.fit(X_train, y_train)
 
+# Printing score for train and test dataset.
 print("Training set score: %f" % mlp.score(X_train, y_train))
 print("Test set score: %f" % mlp.score(X_test, y_test))
