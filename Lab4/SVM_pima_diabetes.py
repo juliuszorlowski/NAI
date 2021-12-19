@@ -118,3 +118,6 @@ print("Mean squared error =", round(sm.mean_squared_error(y_test, y_test_pred), 
 print("Median absolute error =", round(sm.median_absolute_error(y_test, y_test_pred), 2)) 
 print("Explain variance score =", round(sm.explained_variance_score(y_test, y_test_pred), 2))
 print("R2 score =", round(sm.r2_score(y_test, y_test_pred), 2))
+
+print("Training set score: %f" % svc.score(X_train, y_train))
+print("Test set score: %f" % svc.score(X_test, y_test))
