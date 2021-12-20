@@ -1,15 +1,25 @@
 import cv2 as cv
 
+def video_capture(number):
+    result = cv.VideoCapture(number)
+    
+    if not result.isOpened():
+        print("Cannot open camera")
+        exit()
+    
+    return result
+
 eye_cascade = cv.CascadeClassifier(
-    'data\haarcascades_cuda\haarcascade_eye.xml'
+    'data/haarcascades/haarcascade_eye.xml'
 )
 
 if eye_cascade.empty():
     raise IOError('Unable to load the cascade classifier xml file')
 
-cap = cv.VideoCapture(0)
+cap = video_capture(0)
 
 while True:
+        
     _, frame = cap.read()
 
     eye_rects = eye_cascade.detectMultiScale(frame, 1.3, 5)
