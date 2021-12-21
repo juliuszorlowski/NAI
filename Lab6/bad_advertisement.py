@@ -1,5 +1,6 @@
 import cv2
 
+
 def cascade(path):
     result = cv2.CascadeClassifier(path)
 
@@ -8,14 +9,6 @@ def cascade(path):
 
     return result
 
-# def face_cascade():
-#     result = cv2.CascadeClassifier(
-#     'data/haarcascades/haarcascade_frontalface_default.xml')
-
-#     if result.empty():
-#         raise IOError('Unable to load the cascade classifier xml file')
-
-#     return result
 
 def video_capture(number):
     result = cv2.VideoCapture(number)
@@ -25,6 +18,7 @@ def video_capture(number):
         exit()
     
     return result
+
 
 def rects(cascade, frame, no1, no2, no3, blue, green, red):
     result = cascade.detectMultiScale(frame, no1, no2)
