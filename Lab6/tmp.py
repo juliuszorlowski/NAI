@@ -8,7 +8,6 @@ from PyQt5.QtMultimediaWidgets import QVideoWidget
 from PyQt5.QtWidgets import (QApplication, QFileDialog, QHBoxLayout,
                              QPushButton, QSlider, QStyle, QVBoxLayout,
                              QWidget)
-from random import randrange
 
 ###################### Recognition #############################
 

@@ -7,3 +7,6 @@ Lab5/label_encoder.py
 Lab5/.idea
 Lab5/phpnBqZGZ.csv
 Lab6/adv.mp4
+Lab6/__pycache__/bad_advertisement.cpython-310.pyc
+Lab6/__pycache__/play_adv.cpython-310.pyc
+.gitignore
