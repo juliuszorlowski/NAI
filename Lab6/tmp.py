@@ -1,4 +1,5 @@
 import sys
+import cv2
 
 from PyQt5.QtCore import Qt, QUrl
 from PyQt5.QtGui import QIcon, QPalette
@@ -7,9 +8,44 @@ from PyQt5.QtMultimediaWidgets import QVideoWidget
 from PyQt5.QtWidgets import (QApplication, QFileDialog, QHBoxLayout,
                              QPushButton, QSlider, QStyle, QVBoxLayout,
                              QWidget)
-import bad_advertisement as Bad
 from random import randrange
 
+###################### Recognition #############################
+
+def cascade(path):
+    result = cv2.CascadeClassifier(path)
+
+    if result.empty():
+        raise IOError('Unable to load the cascade classifier xml file')
+
+    return result
+
+
+def video_capture(number):
+    result = cv2.VideoCapture(number)
+    
+    if not result.isOpened():
+        print("Cannot open camera")
+        exit()
+    
+    return result
+
+
+def is_cascade(cascade, frame, no1, no2):
+    result = cascade.detectMultiScale(frame, no1, no2)
+    if len(result) == 0:
+        return False
+    else:
+        return True
+
+def rects(cascade, frame, gray, no1, no2, no3, blue, green, red):
+    result = cascade.detectMultiScale(gray, no1, no2)
+    for (x,y,w,h) in result:
+        cv2.rectangle(frame, (x,y), (x+w, y+h), (red, green, blue), no3)
+
+    return result
+
+###################### Player #############################
 class Window(QWidget):
     def __init__(self, filename):
         super().__init__()
@@ -32,18 +68,9 @@ class Window(QWidget):
 
 
         self.open_file(filename)
-        
 
-        # self.playBtn = QPushButton()
-        # self.playBtn.setEnabled(True)
-        # self.playBtn.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
-        # self.playBtn.clicked.connect(self.play_video)
-
-        
         hbox = QHBoxLayout()
         hbox.setContentsMargins(0, 0, 0, 0)
-
-        # hbox.addWidget(self.playBtn)
 
         vbox = QVBoxLayout()
 
@@ -54,8 +81,6 @@ class Window(QWidget):
         self.mediaPlayer.setVideoOutput(videowidget)
 
         self.setLayout(vbox)
-
-        self.play_video(randrange(1))
 
 
     def open_file(self, filename):
@@ -68,8 +93,26 @@ class Window(QWidget):
         else:
             self.mediaPlayer.pause()
 
-def __init__():
-    app = QApplication(sys.argv)
-    window = Window('./adv.mp4') 
-    window.show()
-    sys.exit(app.exec_()) 
+
+cap0 = video_capture(0)
+
+app = QApplication(sys.argv)
+window = Window('./adv.mp4')
+window.show()
+while True:
+
+    _, frame_0 = cap0.read()
+    frame_gray = cv2.cvtColor(frame_0, cv2.COLOR_BGR2GRAY)
+
+    eye_cascade = cascade('data/haarcascades/haarcascade_eye.xml')
+    window.play_video(is_cascade(eye_cascade, frame_gray, 1.3, 20))
+
+    eye_rects = rects(eye_cascade, frame_0, frame_gray, 1.3, 20, 2, 50, 255, 255)
+
+    if cv2.waitKey(1) == 27:
+        break
+
+
+cap0.release()
+cv2.destroyAllWindows()
+sys.exit(app.exec_())
