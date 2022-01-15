@@ -11,7 +11,7 @@ from PyQt5.QtWidgets import QApplication, QHBoxLayout, QVBoxLayout, QWidget
 Opracowanie:
     Autorzy: Jakub Prucnal
              Juliusz Orłowski
-    Temat:   Wykorzystanie frameworka cv2 do oglądania reklamy
+    Temat:   Wykorzystanie frameworka cv2 do oglądania reklamy z przymusem jej oglądania.
     
 Wejście:
     W celu uruchomienia programu należy pobrać i zainstalować PyQt5 oraz cv2 - można zrobić to korzystając
