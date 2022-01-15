@@ -68,7 +68,7 @@ class Window(QWidget):
         else:
             self.mediaPlayer.pause()
 
-def __init__():
+def __main__():
     app = QApplication(sys.argv)
     window = Window('./adv.mp4') 
     window.show()

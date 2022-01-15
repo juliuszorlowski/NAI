@@ -1,15 +1,4 @@
-import sys
 import cv2
-
-from PyQt5.QtCore import Qt, QUrl
-from PyQt5.QtGui import QIcon, QPalette
-from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
-from PyQt5.QtMultimediaWidgets import QVideoWidget
-from PyQt5.QtWidgets import (QApplication, QFileDialog, QHBoxLayout,
-                             QPushButton, QSlider, QStyle, QVBoxLayout,
-                             QWidget)
-
-###################### Recognition #############################
 
 def cascade(path):
     result = cv2.CascadeClassifier(path)
@@ -44,74 +33,37 @@ def rects(cascade, frame, gray, no1, no2, no3, blue, green, red):
 
     return result
 
-###################### Player #############################
-class Window(QWidget):
-    def __init__(self, filename):
-        super().__init__()
-
-        self.setWindowIcon(QIcon('v_player1.png'))
-        self.setWindowTitle('Player')
-        self.setGeometry(350, 100, 700, 500)
-
-        p = self.palette()
-        p.setColor(QPalette.Window, Qt.black)
-        self.setPalette(p)
-
-        self.create_player(filename)
-
-
-    def create_player(self, filename):
-        self.mediaPlayer = QMediaPlayer(None, QMediaPlayer.VideoSurface)
-
-        videowidget = QVideoWidget()
-
-
-        self.open_file(filename)
-
-        hbox = QHBoxLayout()
-        hbox.setContentsMargins(0, 0, 0, 0)
-
-        vbox = QVBoxLayout()
-
-        vbox.addWidget(videowidget)
-
-        vbox.addLayout(hbox)
-
-        self.mediaPlayer.setVideoOutput(videowidget)
-
-        self.setLayout(vbox)
-
-
-    def open_file(self, filename):
-        self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(filename)))
-
-
-    def play_video(self, bool):
-        if bool:
-            self.mediaPlayer.play()
-        else:
-            self.mediaPlayer.pause()
-
 
 cap0 = video_capture(0)
+# cap_ad = video_capture('./adv.mp4')
 
-app = QApplication(sys.argv)
-window = Window('./adv.mp4')
-window.show()
 while True:
 
     _, frame_0 = cap0.read()
     frame_gray = cv2.cvtColor(frame_0, cv2.COLOR_BGR2GRAY)
 
-    eye_cascade = cascade('data/haarcascades/haarcascade_eye.xml')
-    window.play_video(is_cascade(eye_cascade, frame_gray, 1.3, 20))
+    face_cascade = cascade('data/haarcascades/haarcascade_frontalface_default.xml')
+    face_rects = rects(face_cascade, frame_0, frame_gray, 1.3, 7, 2, 0, 255, 0)
 
+    eye_cascade = cascade('data/haarcascades/haarcascade_eye.xml')
     eye_rects = rects(eye_cascade, frame_0, frame_gray, 1.3, 20, 2, 50, 255, 255)
 
+    # print(is_cascade(eye_cascade, frame_gray, 1.3, 20))
+    # print(eye_cascade.isAny())
+    glasses_cascade = cascade('data/haarcascades/haarcascade_eye_tree_eyeglasses.xml')
+    glasses_rects = rects(glasses_cascade, frame_0, frame_gray, 1.3, 5, 1, 0, 255, 255)
+
+    righteye_cascade = cascade('data/haarcascades/haarcascade_righteye_2splits.xml')
+    righteye_rects = rects(righteye_cascade, frame_0, frame_gray, 1.3, 7, 2, 255, 0, 0)
+
+    lefteye_cascade = cascade('data/haarcascades/haarcascade_lefteye_2splits.xml')
+    lefteye_rects = rects(lefteye_cascade, frame_0, frame_gray, 1.3, 7, 2, 0, 0, 255)
+
+    cv2.imshow('Face and Eye Detector', frame_0)
+    # cv2.imshow('Advertisement', frame_ad)
     if cv2.waitKey(1) == 27:
         break
 
 
 cap0.release()
 cv2.destroyAllWindows()
-sys.exit(app.exec_())
